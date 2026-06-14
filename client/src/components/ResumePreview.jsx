@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Printer, RefreshCw } from 'lucide-react';
 import { AnimatedText } from './UIComponents';
@@ -24,6 +24,14 @@ export default function ResumePreview({
   isPro,
   setActiveTab
 }) {
+
+  // Helper to submit changes on Enter key press
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent adding a new line
+      e.target.blur();    // Triggers the onBlur handler automatically
+    }
+  };
 
   const getDividerStyle = () => ({
     borderBottomStyle: resume?.settings?.borderStyle || 'none',
@@ -91,9 +99,9 @@ export default function ResumePreview({
                 suppressContentEditableWarning={true}
                 className="editable-field"
                 onFocus={() => setFocusedField('summary')}
+                onKeyDown={handleKeyDown}
                 onBlur={(e) => {
                   setFocusedField(null);
-                  // Strip the AI suggestion prefix if user edits it directly
                   const text = e.target.innerText.replace(/^AI suggestion 1:\s*/i, '');
                   updateSummary(text);
                 }}
@@ -196,11 +204,11 @@ export default function ResumePreview({
                   <div key={idx}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 750, fontSize: isSidebar ? '9pt' : '9.5pt', marginBottom: '2pt' }}>
                       <span>
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editExperience(idx, 'company', e.target.innerText)}>{exp.company}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editExperience(idx, 'company', e.target.innerText)}>{exp.company}</span>
                         {' '}|{' '}
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editExperience(idx, 'role', e.target.innerText)} style={{ fontWeight: 400, fontStyle: 'italic' }}>{exp.role}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editExperience(idx, 'role', e.target.innerText)} style={{ fontWeight: 400, fontStyle: 'italic' }}>{exp.role}</span>
                       </span>
-                      <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editExperience(idx, 'date', e.target.innerText)} style={{ fontSize: '8pt', color: 'var(--font-color)', opacity: 0.65 }}>{exp.date}</span>
+                      <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editExperience(idx, 'date', e.target.innerText)} style={{ fontSize: '8pt', color: 'var(--font-color)', opacity: 0.65 }}>{exp.date}</span>
                     </div>
                     <ul style={{ margin: 0, paddingLeft: '12pt', fontSize: isSidebar ? '8.5pt' : '9pt', lineHeight: 1.35 }}>
                       {exp.bullets.map((b, bIdx) => {
@@ -213,6 +221,7 @@ export default function ResumePreview({
                             suppressContentEditableWarning={true}
                             className={`editable-field ${isHighlighted ? 'mistake-highlight-orange' : ''}`}
                             onFocus={() => setFocusedField(fieldKey)}
+                            onKeyDown={handleKeyDown}
                             onBlur={(e) => {
                               setFocusedField(null);
                               const updated = [...exp.bullets];
@@ -283,6 +292,7 @@ export default function ResumePreview({
                         contentEditable={true}
                         suppressContentEditableWarning={true}
                         className="editable-field"
+                        onKeyDown={handleKeyDown}
                         onBlur={e => editProject(idx, 'name', e.target.innerText)}
                         style={{ fontWeight: 750, fontSize: isSidebar ? '9pt' : '9.5pt', outline: 'none' }}
                       >
@@ -297,6 +307,7 @@ export default function ResumePreview({
                           suppressContentEditableWarning={true}
                           className="editable-field"
                           onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
+                          onKeyDown={handleKeyDown}
                           onBlur={e => {
                             editProject(idx, 'link', e.target.innerText);
                           }}
@@ -310,6 +321,7 @@ export default function ResumePreview({
                           contentEditable={true}
                           suppressContentEditableWarning={true}
                           className="editable-field no-print"
+                          onKeyDown={handleKeyDown}
                           onBlur={e => {
                             const val = e.target.innerText === 'Add link...' ? '' : e.target.innerText;
                             editProject(idx, 'link', val);
@@ -330,6 +342,7 @@ export default function ResumePreview({
                             suppressContentEditableWarning={true}
                             className="editable-field"
                             onFocus={() => setFocusedField(fieldKey)}
+                            onKeyDown={handleKeyDown}
                             onBlur={(e) => {
                               setFocusedField(null);
                               const updated = [...proj.bullets];
@@ -359,12 +372,12 @@ export default function ResumePreview({
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8pt', fontSize: '8.5pt' }}>
                   {resume.education.map((edu, idx) => (
                     <div key={idx} style={{ lineHeight: 1.3 }}>
-                      <strong contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'degree', e.target.innerText)}>{edu.degree}</strong>
-                      <div contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'institution', e.target.innerText)} style={{ color: 'var(--font-color)', opacity: 0.7, fontSize: '8pt' }}>{edu.institution}</div>
+                      <strong contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'degree', e.target.innerText)}>{edu.degree}</strong>
+                      <div contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'institution', e.target.innerText)} style={{ color: 'var(--font-color)', opacity: 0.7, fontSize: '8pt' }}>{edu.institution}</div>
                       <div style={{ fontStyle: 'italic', fontSize: '8pt' }}>
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'score', e.target.innerText)}>{edu.score}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'score', e.target.innerText)}>{edu.score}</span>
                         {' '}(
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'date', e.target.innerText)}>{edu.date}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'date', e.target.innerText)}>{edu.date}</span>
                         )
                       </div>
                     </div>
@@ -375,14 +388,14 @@ export default function ResumePreview({
                   {resume.education.map((edu, idx) => (
                     <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9pt', lineHeight: 1.3 }}>
                       <span>
-                        <strong contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'institution', e.target.innerText)}>{edu.institution}</strong>
+                        <strong contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'institution', e.target.innerText)}>{edu.institution}</strong>
                         {' '}|{' '}
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'degree', e.target.innerText)}>{edu.degree}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'degree', e.target.innerText)}>{edu.degree}</span>
                       </span>
                       <span>
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'score', e.target.innerText)}>{edu.score}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'score', e.target.innerText)}>{edu.score}</span>
                         {' '}(
-                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={e => editEducation(idx, 'date', e.target.innerText)}>{edu.date}</span>
+                        <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onKeyDown={handleKeyDown} onBlur={e => editEducation(idx, 'date', e.target.innerText)}>{edu.date}</span>
                         )
                       </span>
                     </div>
@@ -405,6 +418,7 @@ export default function ResumePreview({
                     contentEditable={true}
                     suppressContentEditableWarning={true}
                     className="editable-field"
+                    onKeyDown={handleKeyDown}
                     onBlur={(e) => editCertification(idx, e.target.innerText)}
                     style={{ marginBottom: '2pt' }}
                   >
@@ -428,6 +442,7 @@ export default function ResumePreview({
                       className="achievement-card-title resume-accent-text"
                       contentEditable={true}
                       suppressContentEditableWarning={true}
+                      onKeyDown={handleKeyDown}
                       onBlur={(e) => {
                         const updated = [...resume.keyAchievements];
                         updated[aIdx] = { ...updated[aIdx], title: e.target.innerText };
@@ -442,6 +457,7 @@ export default function ResumePreview({
                       className="achievement-card-desc"
                       contentEditable={true}
                       suppressContentEditableWarning={true}
+                      onKeyDown={handleKeyDown}
                       onBlur={(e) => {
                         const updated = [...resume.keyAchievements];
                         updated[aIdx] = { ...updated[aIdx], description: e.target.innerText };
@@ -461,6 +477,11 @@ export default function ResumePreview({
       default:
         return null;
     }
+  };
+
+  // Helper template config map to determine field naming/focus overrides
+  const getHeaderField = (fieldName) => {
+    return focusedField === fieldName ? resume?.personalInfo?.[fieldName] : <AnimatedText text={resume?.personalInfo?.[fieldName]} />;
   };
 
   return (
@@ -519,7 +540,7 @@ export default function ResumePreview({
         </div>
       </div>
 
-      {/* Dynamic A4 Canvas (The compiled printable resume sheet) */}
+      {/* Dynamic A4 Canvas */}
       <article 
         className={`a4-sheet print-area resume-font-${resume?.settings?.fontFamily || 'sans'} margin-${resume?.settings?.margins || 'standard'} ${isDownloading ? 'canvas-glide-down' : ''}`}
         style={{ color: resume?.settings?.fontColor || '#111111', '--font-color': resume?.settings?.fontColor || '#111111', overflow: 'hidden' }}
@@ -540,18 +561,21 @@ export default function ResumePreview({
               contentEditable={true}
               suppressContentEditableWarning={true}
               className="editable-field"
-              onBlur={(e) => updatePersonalInfo('name', e.target.innerText)}
+              onFocus={() => setFocusedField('name')}
+              onKeyDown={handleKeyDown}
+              onBlur={(e) => { setFocusedField(null); updatePersonalInfo('name', e.target.innerText); }}
               style={{ fontSize: '24pt', fontWeight: 950, letterSpacing: '-0.03em', margin: '0 0 4pt 0', textTransform: 'uppercase', outline: 'none' }}
               title="Click to edit name"
             >
-              <AnimatedText text={resume?.personalInfo?.name} />
+              {getHeaderField('name')}
             </h2>
             {resume?.targetJobTitle && (
               <div
                 contentEditable={true}
                 suppressContentEditableWarning={true}
                 className="editable-field"
-                onBlur={(e) => setResume(prev => ({ ...prev, targetJobTitle: e.target.innerText }))}
+                onKeyDown={handleKeyDown}
+                onBlur={(e) => { setFocusedField(null); setResume(prev => ({ ...prev, targetJobTitle: e.target.innerText })); }}
                 style={{ fontSize: '11pt', fontWeight: 700, color: 'var(--subheading-color, var(--accent-color))', marginBottom: '8pt', textTransform: 'uppercase', outline: 'none', letterSpacing: '0.05em' }}
                 title="Click to edit job title"
               >
@@ -566,15 +590,17 @@ export default function ResumePreview({
                   suppressContentEditableWarning={true}
                   className="editable-field"
                   onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                  onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}
+                  onFocus={() => setFocusedField('email')}
+                  onKeyDown={handleKeyDown}
+                  onBlur={(e) => { setFocusedField(null); updatePersonalInfo('email', e.target.innerText); }}
                   style={{ color: 'inherit', textDecoration: 'none' }}
                   title="Ctrl+Click to send email"
                 >
-                  <AnimatedText text={resume?.personalInfo?.email} />
+                  {getHeaderField('email')}
                 </a>
               )}
               <span>•</span>
-              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.phone} /></span>
+              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('phone')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('phone', e.target.innerText); }}>{getHeaderField('phone')}</span>
               {resume?.personalInfo?.linkedin && (
                 <>
                   <span>•</span>
@@ -586,11 +612,13 @@ export default function ResumePreview({
                     suppressContentEditableWarning={true}
                     className="editable-field"
                     onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                    onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
+                    onFocus={() => setFocusedField('linkedin')}
+                    onKeyDown={handleKeyDown}
+                    onBlur={(e) => { setFocusedField(null); updatePersonalInfo('linkedin', e.target.innerText); }}
                     style={{ color: 'inherit', textDecoration: 'underline' }}
                     title="Ctrl+Click to open link"
                   >
-                    <AnimatedText text={resume?.personalInfo?.linkedin} />
+                    {getHeaderField('linkedin')}
                   </a>
                 </>
               )}
@@ -605,11 +633,13 @@ export default function ResumePreview({
                     suppressContentEditableWarning={true}
                     className="editable-field"
                     onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                    onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
+                    onFocus={() => setFocusedField('github')}
+                    onKeyDown={handleKeyDown}
+                    onBlur={(e) => { setFocusedField(null); updatePersonalInfo('github', e.target.innerText); }}
                     style={{ color: 'inherit', textDecoration: 'underline' }}
                     title="Ctrl+Click to open link"
                   >
-                    <AnimatedText text={resume?.personalInfo?.github} />
+                    {getHeaderField('github')}
                   </a>
                 </>
               )}
@@ -620,9 +650,11 @@ export default function ResumePreview({
                     contentEditable={true}
                     suppressContentEditableWarning={true}
                     className="editable-field"
-                    onBlur={(e) => updatePersonalInfo('location', e.target.innerText)}
+                    onFocus={() => setFocusedField('location')}
+                    onKeyDown={handleKeyDown}
+                    onBlur={(e) => { setFocusedField(null); updatePersonalInfo('location', e.target.innerText); }}
                   >
-                    <AnimatedText text={resume?.personalInfo?.location} />
+                    {getHeaderField('location')}
                   </span>
                 </>
               )}
@@ -640,6 +672,7 @@ export default function ResumePreview({
                         suppressContentEditableWarning={true}
                         className="editable-field"
                         onClick={e => e.preventDefault()}
+                        onKeyDown={handleKeyDown}
                         onBlur={(e) => {
                           const updated = [...resume.customFields];
                           updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
@@ -654,6 +687,7 @@ export default function ResumePreview({
                         contentEditable={true}
                         suppressContentEditableWarning={true}
                         className="editable-field"
+                        onKeyDown={handleKeyDown}
                         onBlur={(e) => {
                           const updated = [...resume.customFields];
                           updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
@@ -677,16 +711,18 @@ export default function ResumePreview({
                 contentEditable={true}
                 suppressContentEditableWarning={true}
                 className="editable-field"
-                onBlur={(e) => updatePersonalInfo('name', e.target.innerText)}
+                onFocus={() => setFocusedField('name')}
+                onKeyDown={handleKeyDown}
+                onBlur={(e) => { setFocusedField(null); updatePersonalInfo('name', e.target.innerText); }}
                 style={{ fontSize: '22pt', fontWeight: 900, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase', outline: 'none' }}
               >
-                <AnimatedText text={resume?.personalInfo?.name} />
+                {getHeaderField('name')}
               </h2>
               <span className="resume-accent-text" style={{ fontSize: '9pt', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Professional CV</span>
             </div>
             <div style={{ fontSize: '9pt', color: 'var(--font-color)', opacity: 0.7, textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '2pt' }}>
-              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.email} /></span>
-              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.phone} /></span>
+              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('email')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('email', e.target.innerText); }}>{getHeaderField('email')}</span>
+              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('phone')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('phone', e.target.innerText); }}>{getHeaderField('phone')}</span>
               {resume?.personalInfo?.linkedin && (
                 <a
                   href={resume?.personalInfo?.linkedin.startsWith('http') ? resume?.personalInfo?.linkedin : `https://${resume?.personalInfo?.linkedin}`}
@@ -696,10 +732,12 @@ export default function ResumePreview({
                   suppressContentEditableWarning={true}
                   className="editable-field"
                   onClick={e => e.preventDefault()}
-                  onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
+                  onFocus={() => setFocusedField('linkedin')}
+                  onKeyDown={handleKeyDown}
+                  onBlur={(e) => { setFocusedField(null); updatePersonalInfo('linkedin', e.target.innerText); }}
                   style={{ color: 'inherit', textDecoration: 'underline' }}
                 >
-                  <AnimatedText text={resume?.personalInfo?.linkedin} />
+                  {getHeaderField('linkedin')}
                 </a>
               )}
               {resume?.personalInfo?.github && (
@@ -711,10 +749,12 @@ export default function ResumePreview({
                   suppressContentEditableWarning={true}
                   className="editable-field"
                   onClick={e => e.preventDefault()}
-                  onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
+                  onFocus={() => setFocusedField('github')}
+                  onKeyDown={handleKeyDown}
+                  onBlur={(e) => { setFocusedField(null); updatePersonalInfo('github', e.target.innerText); }}
                   style={{ color: 'inherit', textDecoration: 'underline' }}
                 >
-                  <AnimatedText text={resume?.personalInfo?.github} />
+                  {getHeaderField('github')}
                 </a>
               )}
               {resume?.customFields?.map((cf, cfIdx) => {
@@ -729,6 +769,7 @@ export default function ResumePreview({
                     suppressContentEditableWarning={true}
                     className="editable-field"
                     onClick={e => e.preventDefault()}
+                    onKeyDown={handleKeyDown}
                     onBlur={(e) => {
                       const updated = [...resume.customFields];
                       updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
@@ -744,6 +785,7 @@ export default function ResumePreview({
                     contentEditable={true}
                     suppressContentEditableWarning={true}
                     className="editable-field"
+                    onKeyDown={handleKeyDown}
                     onBlur={(e) => {
                       const updated = [...resume.customFields];
                       updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
@@ -751,115 +793,6 @@ export default function ResumePreview({
                     }}
                   >
                     <strong>{cf.label}:</strong> {cf.value}
-                  </span>
-                );
-              })}
-            </div>
-          </header>
-        )}
-
-        {activeTemplate.headerStyle === 'left' && (
-          <header style={{ marginBottom: '0.6cm' }}>
-            <h2
-              contentEditable={true}
-              suppressContentEditableWarning={true}
-              className="editable-field"
-              onBlur={(e) => updatePersonalInfo('name', e.target.innerText)}
-              style={{ fontSize: '24pt', fontWeight: 900, letterSpacing: '-0.03em', margin: '0 0 6pt 0', textTransform: 'uppercase', outline: 'none' }}
-            >
-              <AnimatedText text={resume?.personalInfo?.name} />
-            </h2>
-            <div style={{ fontSize: '9.5pt', color: 'var(--font-color)', opacity: 0.7, display: 'flex', flexWrap: 'wrap', gap: '10pt' }}>
-              {resume?.personalInfo?.email && (
-                <span><strong>Email:</strong>{' '}
-                  <a
-                    href={`mailto:${resume?.personalInfo?.email}`}
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                    onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}
-                    style={{ color: 'inherit', textDecoration: 'none' }}
-                    title="Ctrl+Click to send email"
-                  >
-                    <AnimatedText text={resume?.personalInfo?.email} />
-                  </a>
-                </span>
-              )}
-              <span><strong>Phone:</strong> <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.phone} /></span></span>
-              {resume?.personalInfo?.linkedin && (
-                <span><strong>LinkedIn:</strong>{' '}
-                  <a
-                    href={resume?.personalInfo?.linkedin.startsWith('http') ? resume?.personalInfo?.linkedin : `https://${resume?.personalInfo?.linkedin}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                    onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
-                    style={{ color: 'inherit', textDecoration: 'underline' }}
-                    title="Ctrl+Click to open link"
-                  >
-                    <AnimatedText text={resume?.personalInfo?.linkedin} />
-                  </a>
-                </span>
-              )}
-              {resume?.personalInfo?.github && (
-                <span><strong>GitHub:</strong>{' '}
-                  <a
-                    href={resume?.personalInfo?.github.startsWith('http') ? resume?.personalInfo?.github : `https://${resume?.personalInfo?.github}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                    onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
-                    style={{ color: 'inherit', textDecoration: 'underline' }}
-                    title="Ctrl+Click to open link"
-                  >
-                    <AnimatedText text={resume?.personalInfo?.github} />
-                  </a>
-                </span>
-              )}
-              {resume?.customFields?.map((cf, cfIdx) => {
-                const isLink = cf.type === 'link';
-                return (
-                  <span key={cfIdx}>
-                    <strong>{cf.label}:</strong>{' '}
-                    {isLink ? (
-                      <a
-                        href={cf.value.startsWith('http') ? cf.value : `https://${cf.value}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        contentEditable={true}
-                        suppressContentEditableWarning={true}
-                        className="editable-field"
-                        onClick={e => e.preventDefault()}
-                        onBlur={(e) => {
-                          const updated = [...resume.customFields];
-                          updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                          setResume(prev => ({ ...prev, customFields: updated }));
-                        }}
-                        style={{ color: 'inherit', textDecoration: 'underline' }}
-                      >
-                        {cf.value}
-                      </a>
-                    ) : (
-                      <span
-                        contentEditable={true}
-                        suppressContentEditableWarning={true}
-                        className="editable-field"
-                        onBlur={(e) => {
-                          const updated = [...resume.customFields];
-                          updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                          setResume(prev => ({ ...prev, customFields: updated }));
-                        }}
-                      >
-                        {cf.value}
-                      </span>
-                    )}
                   </span>
                 );
               })}
@@ -874,16 +807,18 @@ export default function ResumePreview({
                 contentEditable={true}
                 suppressContentEditableWarning={true}
                 className="editable-field"
-                onBlur={(e) => updatePersonalInfo('name', e.target.innerText)}
+                onFocus={() => setFocusedField('name')}
+                onKeyDown={handleKeyDown}
+                onBlur={(e) => { setFocusedField(null); updatePersonalInfo('name', e.target.innerText); }}
                 style={{ fontSize: '22pt', fontWeight: 900, letterSpacing: '-0.02em', margin: 0, textTransform: 'uppercase', color: 'white', outline: 'none' }}
               >
-                <AnimatedText text={resume?.personalInfo?.name} />
+                {getHeaderField('name')}
               </h2>
               <span style={{ fontSize: '9pt', opacity: 0.8, letterSpacing: '0.05em' }}>Portfolio Record</span>
             </div>
             <div style={{ fontSize: '8.5pt', textAlign: 'right', color: 'white', display: 'flex', flexDirection: 'column', gap: '2pt', opacity: 0.9 }}>
-              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.email} /></span>
-              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.phone} /></span>
+              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('email')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('email', e.target.innerText); }}>{getHeaderField('email')}</span>
+              <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('phone')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('phone', e.target.innerText); }}>{getHeaderField('phone')}</span>
               {resume?.personalInfo?.linkedin && (
                 <a
                   href={resume?.personalInfo?.linkedin.startsWith('http') ? resume?.personalInfo?.linkedin : `https://${resume?.personalInfo?.linkedin}`}
@@ -893,10 +828,12 @@ export default function ResumePreview({
                   suppressContentEditableWarning={true}
                   className="editable-field"
                   onClick={e => e.preventDefault()}
-                  onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
+                  onFocus={() => setFocusedField('linkedin')}
+                  onKeyDown={handleKeyDown}
+                  onBlur={(e) => { setFocusedField(null); updatePersonalInfo('linkedin', e.target.innerText); }}
                   style={{ color: 'inherit', textDecoration: 'underline' }}
                 >
-                  <AnimatedText text={resume?.personalInfo?.linkedin} />
+                  {getHeaderField('linkedin')}
                 </a>
               )}
               {resume?.personalInfo?.github && (
@@ -908,49 +845,14 @@ export default function ResumePreview({
                   suppressContentEditableWarning={true}
                   className="editable-field"
                   onClick={e => e.preventDefault()}
-                  onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
+                  onFocus={() => setFocusedField('github')}
+                  onKeyDown={handleKeyDown}
+                  onBlur={(e) => { setFocusedField(null); updatePersonalInfo('github', e.target.innerText); }}
                   style={{ color: 'inherit', textDecoration: 'underline' }}
                 >
-                  <AnimatedText text={resume?.personalInfo?.github} />
+                  {getHeaderField('github')}
                 </a>
               )}
-              {resume?.customFields?.map((cf, cfIdx) => {
-                const isLink = cf.type === 'link';
-                return isLink ? (
-                  <a
-                    key={cfIdx}
-                    href={cf.value.startsWith('http') ? cf.value : `https://${cf.value}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onClick={e => e.preventDefault()}
-                    onBlur={(e) => {
-                      const updated = [...resume.customFields];
-                      updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                      setResume(prev => ({ ...prev, customFields: updated }));
-                    }}
-                    style={{ color: 'inherit', textDecoration: 'underline' }}
-                  >
-                    <strong>{cf.label}:</strong> {cf.value}
-                  </a>
-                ) : (
-                  <span
-                    key={cfIdx}
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onBlur={(e) => {
-                      const updated = [...resume.customFields];
-                      updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                      setResume(prev => ({ ...prev, customFields: updated }));
-                    }}
-                  >
-                    <strong>{cf.label}:</strong> {cf.value}
-                  </span>
-                );
-              })}
             </div>
           </header>
         )}
@@ -963,126 +865,38 @@ export default function ResumePreview({
                 contentEditable={true}
                 suppressContentEditableWarning={true}
                 className="editable-field"
-                onBlur={(e) => updatePersonalInfo('name', e.target.innerText)}
+                onFocus={() => setFocusedField('name')}
+                onKeyDown={handleKeyDown}
+                onBlur={(e) => { setFocusedField(null); updatePersonalInfo('name', e.target.innerText); }}
                 style={{ fontSize: '24pt', fontWeight: 900, letterSpacing: '-0.03em', margin: 0, textTransform: 'uppercase', outline: 'none' }}
               >
-                <AnimatedText text={resume?.personalInfo?.name} />
+                {getHeaderField('name')}
               </h2>
               <div style={{ fontSize: '8.5pt', color: 'var(--font-color)', opacity: 0.7, display: 'flex', gap: '8pt' }}>
-                <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.email} /></span>
+                <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('email')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('email', e.target.innerText); }}>{getHeaderField('email')}</span>
                 <span>|</span>
-                <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.phone} /></span>
+                <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onFocus={() => setFocusedField('phone')} onKeyDown={handleKeyDown} onBlur={(e) => { setFocusedField(null); updatePersonalInfo('phone', e.target.innerText); }}>{getHeaderField('phone')}</span>
               </div>
-            </div>
-            <div style={{ display: 'flex', gap: '10pt', fontSize: '8.5pt', color: 'var(--font-color)', opacity: 0.7, marginTop: '4pt', borderTop: '1px solid #e2e8f0', paddingTop: '4pt' }}>
-              {resume?.personalInfo?.linkedin && (
-                <span><strong>LinkedIn:</strong>{' '}
-                  <a
-                    href={resume?.personalInfo?.linkedin.startsWith('http') ? resume?.personalInfo?.linkedin : `https://${resume?.personalInfo?.linkedin}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onClick={e => e.preventDefault()}
-                    onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
-                    style={{ color: 'inherit', textDecoration: 'underline' }}
-                  >
-                    <AnimatedText text={resume?.personalInfo?.linkedin} />
-                  </a>
-                </span>
-              )}
-              {resume?.personalInfo?.github && (
-                <span><strong>GitHub:</strong>{' '}
-                  <a
-                    href={resume?.personalInfo?.github.startsWith('http') ? resume?.personalInfo?.github : `https://${resume?.personalInfo?.github}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    className="editable-field"
-                    onClick={e => e.preventDefault()}
-                    onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
-                    style={{ color: 'inherit', textDecoration: 'underline' }}
-                  >
-                    <AnimatedText text={resume?.personalInfo?.github} />
-                  </a>
-                </span>
-              )}
-              {resume?.customFields?.map((cf, cfIdx) => {
-                const isLink = cf.type === 'link';
-                return (
-                  <span key={cfIdx}>
-                    <strong>{cf.label}:</strong>{' '}
-                    {isLink ? (
-                      <a
-                        href={cf.value.startsWith('http') ? cf.value : `https://${cf.value}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        contentEditable={true}
-                        suppressContentEditableWarning={true}
-                        className="editable-field"
-                        onClick={e => e.preventDefault()}
-                        onBlur={(e) => {
-                          const updated = [...resume.customFields];
-                          updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                          setResume(prev => ({ ...prev, customFields: updated }));
-                        }}
-                        style={{ color: 'inherit', textDecoration: 'underline' }}
-                      >
-                        {cf.value}
-                      </a>
-                    ) : (
-                      <span
-                        contentEditable={true}
-                        suppressContentEditableWarning={true}
-                        className="editable-field"
-                        onBlur={(e) => {
-                          const updated = [...resume.customFields];
-                          updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                          setResume(prev => ({ ...prev, customFields: updated }));
-                        }}
-                      >
-                        {cf.value}
-                      </span>
-                    )}
-                  </span>
-                );
-              })}
             </div>
           </header>
         )}
 
         {activeTemplate.headerStyle === 'sidebar' && (
           <header style={{ marginBottom: '0.8cm', display: 'flex', gap: '0.6cm', alignItems: 'stretch' }}>
-            {/* Name Left Column */}
             <div style={{ flex: '1.2', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <h2
                 contentEditable={true}
                 suppressContentEditableWarning={true}
                 className="editable-field"
-                onBlur={(e) => updatePersonalInfo('name', e.target.innerText)}
+                onFocus={() => setFocusedField('name')}
+                onKeyDown={handleKeyDown}
+                onBlur={(e) => { setFocusedField(null); updatePersonalInfo('name', e.target.innerText); }}
                 style={{ fontSize: '24pt', fontWeight: 900, letterSpacing: '-0.03em', margin: 0, textTransform: 'uppercase', outline: 'none', lineHeight: 1.1 }}
               >
-                <AnimatedText text={resume?.personalInfo?.name} />
+                {getHeaderField('name')}
               </h2>
-              {resume?.personalInfo?.title && (
-                <div
-                  contentEditable={true}
-                  suppressContentEditableWarning={true}
-                  className="editable-field resume-accent-text"
-                  onBlur={(e) => updatePersonalInfo('title', e.target.innerText)}
-                  style={{ fontSize: '9.5pt', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4pt' }}
-                >
-                  <AnimatedText text={resume?.personalInfo?.title} />
-                </div>
-              )}
             </div>
-
-            {/* Vertical Accent Line */}
             <div className="resume-accent-bg" style={{ width: '3px', minHeight: '100%', alignSelf: 'stretch', opacity: 0.8 }} />
-
-            {/* Contacts Right Column */}
             <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '3pt', fontSize: '8.5pt', justifyContent: 'center', color: 'var(--font-color)', opacity: 0.8 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2pt' }}>
                 {resume?.personalInfo?.email && (
@@ -1094,126 +908,35 @@ export default function ResumePreview({
                       suppressContentEditableWarning={true}
                       className="editable-field"
                       onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                      onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}
+                      onFocus={() => setFocusedField('email')}
+                      onKeyDown={handleKeyDown}
+                      onBlur={(e) => { setFocusedField(null); updatePersonalInfo('email', e.target.innerText); }}
                       style={{ color: 'inherit', textDecoration: 'none' }}
-                      title="Ctrl+Click to send email"
                     >
-                      <AnimatedText text={resume?.personalInfo?.email} />
+                      {getHeaderField('email')}
                     </a>
                   </div>
                 )}
-                {resume?.personalInfo?.phone && (
-                  <div>
-                    <strong>Phone:</strong>{' '}
-                    <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}><AnimatedText text={resume?.personalInfo?.phone} /></span>
-                  </div>
-                )}
-                {resume?.personalInfo?.linkedin && (
-                  <div>
-                    <strong>LinkedIn:</strong>{' '}
-                    <a
-                      href={resume?.personalInfo?.linkedin.startsWith('http') ? resume?.personalInfo?.linkedin : `https://${resume?.personalInfo?.linkedin}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      contentEditable={true}
-                      suppressContentEditableWarning={true}
-                      className="editable-field"
-                      onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                      onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
-                      style={{ color: 'inherit', textDecoration: 'underline' }}
-                      title="Ctrl+Click to open link"
-                    >
-                      <AnimatedText text={resume?.personalInfo?.linkedin} />
-                    </a>
-                  </div>
-                )}
-                {resume?.personalInfo?.github && (
-                  <div>
-                    <strong>GitHub:</strong>{' '}
-                    <a
-                      href={resume?.personalInfo?.github.startsWith('http') ? resume?.personalInfo?.github : `https://${resume?.personalInfo?.github}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      contentEditable={true}
-                      suppressContentEditableWarning={true}
-                      className="editable-field"
-                      onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                      onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
-                      style={{ color: 'inherit', textDecoration: 'underline' }}
-                      title="Ctrl+Click to open link"
-                    >
-                      <AnimatedText text={resume?.personalInfo?.github} />
-                    </a>
-                  </div>
-                )}
-                {resume?.customFields?.map((cf, cfIdx) => {
-                  const isLink = cf.type === 'link';
-                  return (
-                    <div key={cfIdx}>
-                      <strong>{cf.label}:</strong>{' '}
-                      {isLink ? (
-                        <a
-                          href={cf.value.startsWith('http') ? cf.value : `https://${cf.value}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          contentEditable={true}
-                          suppressContentEditableWarning={true}
-                          className="editable-field"
-                          onClick={e => e.preventDefault()}
-                          onBlur={(e) => {
-                            const updated = [...resume.customFields];
-                            updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                            setResume(prev => ({ ...prev, customFields: updated }));
-                          }}
-                          style={{ color: 'inherit', textDecoration: 'underline' }}
-                        >
-                          {cf.value}
-                        </a>
-                      ) : (
-                        <span
-                          contentEditable={true}
-                          suppressContentEditableWarning={true}
-                          className="editable-field"
-                          onBlur={(e) => {
-                            const updated = [...resume.customFields];
-                            updated[cfIdx] = { ...updated[cfIdx], value: e.target.innerText };
-                            setResume(prev => ({ ...prev, customFields: updated }));
-                          }}
-                        >
-                          {cf.value}
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
               </div>
             </div>
           </header>
         )}
 
-        {/* Render layouts or Cover Letter */}
+        {/* Layout Templates */}
         {previewMode === 'coverletter' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6cm', minHeight: '22cm', fontSize: '10pt', lineHeight: 1.5 }}>
-            {/* Date */}
             <div style={{ color: 'var(--font-color)', opacity: 0.8, fontSize: '9.5pt' }}>
               {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
-            
-            {/* Recipient Details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2pt' }}>
               <strong>To:</strong>
               <span>{resume?.coverLetter?.recipient || 'Hiring Team'}</span>
               {resume?.coverLetter?.company && <span>{resume?.coverLetter?.company}</span>}
             </div>
-            
             <div className="section-divider" style={getDividerStyle()} />
-            
-            {/* Subject Line */}
             <div style={{ fontWeight: 800 }}>
               RE: Application for {resume?.targetJobTitle || 'Software Engineer'} Role
             </div>
-            
-            {/* Body text with paragraphs */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4cm', textAlign: 'justify', whiteSpace: 'pre-line' }}>
               {resume?.coverLetter?.body || 'Dear Hiring Manager,\n\n(Please write or generate your cover letter in the edit panel)'}
             </div>
@@ -1228,86 +951,23 @@ export default function ResumePreview({
               </div>
             )}
 
-            {/* Double Column layout */}
             {(activeTemplate.layoutType === 'double-left' || activeTemplate.layoutType === 'double-right') && (
               <div className={`resume-grid-${activeTemplate.layoutType}`}>
-                
-                {/* Sidebar column */}
                 <div className="resume-sidebar-col">
-                  <section>
-                    <h4 className="resume-accent-text" style={{ fontSize: '10pt', fontWeight: 800, margin: '0 0 4pt 0', textTransform: 'uppercase' }}>Contact</h4>
-                    <div className="section-divider" style={getDividerStyle()} />
-                    <div style={{ fontSize: '8.5pt', color: 'var(--font-color)', opacity: 0.7, display: 'flex', flexDirection: 'column', gap: '3pt' }}>
-                      {resume?.personalInfo?.email && (
-                        <a
-                          href={`mailto:${resume?.personalInfo?.email}`}
-                          contentEditable={true}
-                          suppressContentEditableWarning={true}
-                          className="editable-field"
-                          onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                          onBlur={(e) => updatePersonalInfo('email', e.target.innerText)}
-                          style={{ color: 'inherit', textDecoration: 'none' }}
-                          title="Ctrl+Click to send email"
-                        >
-                          {resume?.personalInfo?.email}
-                        </a>
-                      )}
-                      <span contentEditable={true} suppressContentEditableWarning={true} className="editable-field" onBlur={(e) => updatePersonalInfo('phone', e.target.innerText)}>{resume?.personalInfo?.phone}</span>
-                      {resume?.personalInfo?.linkedin && (
-                        <a
-                          href={resume.personalInfo.linkedin.startsWith('http') ? resume.personalInfo.linkedin : `https://${resume.personalInfo.linkedin}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          contentEditable={true}
-                          suppressContentEditableWarning={true}
-                          className="editable-field"
-                          onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                          onBlur={(e) => updatePersonalInfo('linkedin', e.target.innerText)}
-                          style={{ color: 'inherit', textDecoration: 'underline', wordBreak: 'break-all' }}
-                          title="Ctrl+Click to open link"
-                        >
-                          {resume.personalInfo.linkedin}
-                        </a>
-                      )}
-                      {resume?.personalInfo?.github && (
-                        <a
-                          href={resume.personalInfo.github.startsWith('http') ? resume.personalInfo.github : `https://${resume.personalInfo.github}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          contentEditable={true}
-                          suppressContentEditableWarning={true}
-                          className="editable-field"
-                          onClick={e => { if (!e.ctrlKey && !e.metaKey) e.preventDefault(); }}
-                          onBlur={(e) => updatePersonalInfo('github', e.target.innerText)}
-                          style={{ color: 'inherit', textDecoration: 'underline', wordBreak: 'break-all' }}
-                          title="Ctrl+Click to open link"
-                        >
-                          {resume.personalInfo.github}
-                        </a>
-                      )}
-                    </div>
-                  </section>
-
                   {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
                     .filter(id => ['skills', 'education', 'certifications'].includes(id))
                     .map(secId => renderSection(secId, 'sidebar'))}
                 </div>
-
-                {/* Main content column */}
                 <div className="resume-main-col">
                   {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
                     .filter(id => ['summary', 'experience', 'projects'].includes(id))
                     .map(secId => renderSection(secId, 'single'))}
                 </div>
-
               </div>
             )}
 
-            {/* Grid Layout */}
             {activeTemplate.layoutType === 'grid' && (
               <div className="resume-grid-grid">
-                
-                {/* Summary at top spanned 2 columns if present */}
                 {resume?.settings?.showSummary !== false && resume?.summary && (
                   <section style={{ gridColumn: 'span 2', marginBottom: '0.2cm' }}>
                     <h3 className="resume-accent-text" style={{ fontSize: '11pt', fontWeight: 800, margin: '0 0 4pt 0', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Summary</h3>
@@ -1317,6 +977,7 @@ export default function ResumePreview({
                       suppressContentEditableWarning={true}
                       className="editable-field"
                       onFocus={() => setFocusedField('summary-grid')}
+                      onKeyDown={handleKeyDown}
                       onBlur={(e) => {
                         setFocusedField(null);
                         updateSummary(e.target.innerText);
@@ -1327,21 +988,16 @@ export default function ResumePreview({
                     </p>
                   </section>
                 )}
-
-                {/* Left Column */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5cm' }}>
                   {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
                     .filter(id => ['experience'].includes(id))
                     .map(secId => renderSection(secId, 'single'))}
                 </div>
-
-                {/* Right Column */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5cm' }}>
                   {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
                     .filter(id => ['skills', 'projects', 'education', 'certifications'].includes(id))
                     .map(secId => renderSection(secId, 'single'))}
                 </div>
-
               </div>
             )}
           </>
