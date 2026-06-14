@@ -16,6 +16,7 @@ router.post('/register', async (req, res) => {
     const newUser = await User.create({ name, email, password, isPro: false, isAdmin });
     res.json({ _id: newUser._id, name: newUser.name, email: newUser.email, isPro: newUser.isPro, isAdmin: newUser.isAdmin });
   } catch (err) {
+    console.error('Registration error:', err);
     res.status(500).json({ error: 'Registration failed' });
   }
 });
@@ -30,6 +31,7 @@ router.post('/login', async (req, res) => {
     }
     res.json({ _id: user._id, name: user.name, email: user.email, isPro: user.isPro, isAdmin: user.isAdmin });
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ error: 'Login failed' });
   }
 });
@@ -42,6 +44,7 @@ router.post('/users/upgrade', async (req, res) => {
     if (!updatedUser) return res.status(404).json({ error: 'User not found' });
     res.json({ _id: updatedUser._id, name: updatedUser.name, email: updatedUser.email, isPro: updatedUser.isPro });
   } catch (err) {
+    console.error('Upgrade error:', err);
     res.status(500).json({ error: 'Failed to upgrade user' });
   }
 });

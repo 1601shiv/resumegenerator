@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectAndSeedDB } from './config/db.js';
+import { dbCheckMiddleware } from './middleware/dbCheck.js';
 import authRoutes from './routes/authRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
 import templateRoutes from './routes/templateRoutes.js';
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(dbCheckMiddleware);
 
 // Connect and seed database globally at startup
 connectAndSeedDB(process.env.MONGODB_URI)
