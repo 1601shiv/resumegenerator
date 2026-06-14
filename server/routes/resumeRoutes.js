@@ -10,16 +10,6 @@ router.get('/resumes', async (req, res) => {
     const { userId } = req.query;
     if (userId) {
       const resumes = await Resume.find({ userId });
-      if (resumes.length === 0) {
-        // Clone default seeded resume for this new user
-        const defaultResume = await Resume.findOne({ userId: null });
-        const newResumeData = defaultResume ? defaultResume.toObject() : SEED_RESUME;
-        delete newResumeData._id;
-        newResumeData.userId = userId;
-        newResumeData.title = 'My First Resume';
-        const created = await Resume.create(newResumeData);
-        return res.json([created]);
-      }
       res.json(resumes);
     } else {
       const defaultResume = await Resume.findOne({ userId: null });
