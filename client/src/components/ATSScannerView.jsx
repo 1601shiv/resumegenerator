@@ -42,7 +42,7 @@ export default function ATSScannerView({
             </div>
           </header>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '2rem', alignItems: 'start' }}>
+          <div className="ats-grid-layout">
             {/* Left Pane: Input fields */}
             <div className="feature-glass-card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

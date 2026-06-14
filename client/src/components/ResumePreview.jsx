@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Printer, RefreshCw } from 'lucide-react';
 import { AnimatedText } from './UIComponents';
@@ -478,8 +478,41 @@ export default function ResumePreview({
     return focusedField === fieldName ? resume?.personalInfo?.[fieldName] : <AnimatedText text={resume?.personalInfo?.[fieldName]} />;
   };
 
+  const previewRef = useRef(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    if (isDownloading) {
+      setScale(1);
+      return;
+    }
+    const handleResize = () => {
+      if (!previewRef.current) return;
+      const containerWidth = previewRef.current.clientWidth;
+      const targetWidth = 21 * 37.7952755906;
+      const padding = 32;
+      if (containerWidth < targetWidth + padding) {
+        const newScale = (containerWidth - padding) / targetWidth;
+        setScale(newScale);
+      } else {
+        setScale(1);
+      }
+    };
+
+    handleResize();
+
+    const observer = new ResizeObserver(handleResize);
+    if (previewRef.current) observer.observe(previewRef.current);
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isDownloading]);
+
   return (
-    <main className="preview-panel">
+    <main className="preview-panel" ref={previewRef}>
       {/* Editor Top Bar Toolbar */}
       <div className="preview-toolbar no-print">
         <div className="toolbar-status">
@@ -534,11 +567,29 @@ export default function ResumePreview({
         </div>
       </div>
 
-      {/* Dynamic A4 Canvas */}
-      <article 
-        className={`a4-sheet print-area resume-font-${resume?.settings?.fontFamily || 'sans'} margin-${resume?.settings?.margins || 'standard'} ${isDownloading ? 'canvas-glide-down' : ''}`}
-        style={{ color: resume?.settings?.fontColor || '#111111', '--font-color': resume?.settings?.fontColor || '#111111', overflow: 'hidden' }}
+      {/* Scaled canvas container for mobile viewports */}
+      <div 
+        style={{ 
+          width: '100%', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          height: isDownloading ? 'auto' : `calc(29.7cm * ${scale})`,
+          overflow: 'hidden',
+          marginBottom: '2rem'
+        }}
+        className="a4-container-wrapper"
       >
+        <article 
+          className={`a4-sheet print-area resume-font-${resume?.settings?.fontFamily || 'sans'} margin-${resume?.settings?.margins || 'standard'} ${isDownloading ? 'canvas-glide-down' : ''}`}
+          style={{ 
+            color: resume?.settings?.fontColor || '#111111', 
+            '--font-color': resume?.settings?.fontColor || '#111111', 
+            overflow: 'hidden',
+            transform: isDownloading ? 'none' : `scale(${scale})`,
+            transformOrigin: 'top center',
+            margin: '0'
+          }}
+        >
         <AnimatePresence mode="popLayout">
           <motion.div
             key={activeTemplate.id}
@@ -1017,6 +1068,7 @@ export default function ResumePreview({
           </motion.div>
         </AnimatePresence>
       </article>
+      </div>
     </main>
   );
 }

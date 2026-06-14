@@ -45,7 +45,7 @@ export default function AdminView({
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               
               {/* Stats cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+              <div className="admin-stats-grid">
                 <div className="feature-glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Registered Users</span>
                   <span style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--accent-color)' }}>{adminStats?.totalUsers || 0}</span>
@@ -61,7 +61,7 @@ export default function AdminView({
               </div>
 
               {/* Split view: Users table & Popular templates */}
-              <div style={{ display: 'grid', gridTemplateColumns: '2.5fr 1fr', gap: '2rem', alignItems: 'start' }}>
+              <div className="admin-split-grid">
                 
                 {/* Users Table */}
                 <div className="feature-glass-card" style={{ padding: '2rem', overflowX: 'auto' }}>

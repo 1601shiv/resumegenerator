@@ -200,6 +200,7 @@ export default function App() {
   const [isWizardMode, setIsWizardMode] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('dashboard-theme') || 'dark');
   const [activeTab, setActiveTab] = useState('templates');
+  const [mobileEditorTab, setMobileEditorTab] = useState('edit'); // 'edit' | 'preview'
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(() => {
     try {
@@ -1457,7 +1458,7 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              style={{ display: 'flex', height: '100%', width: '100%' }}
+              className={`editor-workspace-container ${mobileEditorTab === 'edit' ? 'show-edit' : 'show-preview'}`}
             >
                {/* Editor Panel (Left) */}
               <EditorSidebar
@@ -1624,6 +1625,26 @@ export default function App() {
               </button>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Floating mobile sub-view toggle bar for the editor */}
+      {view === 'editor' && (
+        <div className="mobile-editor-floating-toggle no-print">
+          <button 
+            className={`toggle-btn ${mobileEditorTab === 'edit' ? 'active' : ''}`}
+            onClick={() => setMobileEditorTab('edit')}
+          >
+            <Edit2 size={14} />
+            <span>Edit Form</span>
+          </button>
+          <button 
+            className={`toggle-btn ${mobileEditorTab === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileEditorTab('preview')}
+          >
+            <Eye size={14} />
+            <span>Live Preview</span>
+          </button>
         </div>
       )}
 
