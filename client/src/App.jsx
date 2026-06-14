@@ -196,20 +196,20 @@ async function fetchWithTimeout(resource, options = {}) {
 
 export default function App() {
   // Navigation & UI state
-  const [view, setView] = useState('home'); // 'home' | 'templates' | 'dashboard' | 'editor' | 'about' | 'admin' | 'ats'
+  const [view, setView] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? 'dashboard' : 'home';
+    } catch (e) {
+      return 'home';
+    }
+  }); // 'home' | 'templates' | 'dashboard' | 'editor' | 'about' | 'admin' | 'ats'
   const [isWizardMode, setIsWizardMode] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('dashboard-theme') || 'dark');
   const [activeTab, setActiveTab] = useState('templates');
   const [mobileEditorTab, setMobileEditorTab] = useState('edit'); // 'edit' | 'preview'
   const [toast, setToast] = useState(null);
-  const [loading, setLoading] = useState(() => {
-    try {
-      const saved = localStorage.getItem('user');
-      return saved ? true : false;
-    } catch (e) {
-      return false;
-    }
-  });
+  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
 
