@@ -612,6 +612,21 @@ export default function App() {
     showToast('Redone action');
   };
 
+  const handleRestoreInitial = () => {
+    if (history.past.length === 0) {
+      showToast('You are already at the initial version');
+      return;
+    }
+    const initial = history.past[0];
+    setHistory(prev => ({
+      past: [],
+      future: [...prev.past.slice(1), JSON.parse(JSON.stringify(resume)), ...prev.future]
+    }));
+    lastSavedResume.current = JSON.parse(JSON.stringify(initial));
+    setResume(initial);
+    showToast('Restored to initial version');
+  };
+
   const handleUpgradeToPro = async () => {
     if (user) {
       try {
@@ -1517,6 +1532,7 @@ export default function App() {
                 canUndo={history.past.length > 0}
                 canRedo={history.future.length > 0}
                 handlePrint={handlePrint}
+                handleRestoreInitial={handleRestoreInitial}
               />
 
               {/* Preview Workspace Area (Right) */}

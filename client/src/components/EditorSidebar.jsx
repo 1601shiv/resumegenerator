@@ -95,7 +95,8 @@ export default function EditorSidebar({
   handleRedo,
   canUndo,
   canRedo,
-  handlePrint
+  handlePrint,
+  handleRestoreInitial
 }) {
   const [showUpgradeModal, setShowUpgradeModal] = React.useState(false);
 
@@ -184,7 +185,7 @@ export default function EditorSidebar({
           {/* History Revisions button */}
           <button
             className="slim-tab-btn"
-            onClick={() => showToast('Initial version loaded successfully!')}
+            onClick={handleRestoreInitial}
             title="Version History"
           >
             <History size={18} />
@@ -1554,7 +1555,7 @@ export default function EditorSidebar({
                   { id: 'showExperience', label: 'Work Experience', tabId: 'experience' },
                   { id: 'showProjects', label: 'Projects', tabId: 'projects' },
                   { id: 'showEducation', label: 'Education', tabId: 'education' },
-                  { id: 'showCertifications', label: 'Certifications', tabId: 'customizer' }
+                  { id: 'showCertifications', label: 'Certifications', tabId: 'education' }
                 ].map(sec => {
                   const isShown = resume?.settings?.[sec.id] !== false;
                   return (
