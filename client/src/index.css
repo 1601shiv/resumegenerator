@@ -239,6 +239,8 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 280px;
+  flex: 1;
+  min-width: 0;
 }
 
 .list-item-body {
@@ -2119,12 +2121,14 @@ body {
     flex-direction: row !important;
     width: auto !important;
     gap: 0.5rem !important;
+    flex-shrink: 0 !important;
   }
 
   .slim-toolbar-bottom {
     flex-direction: row !important;
     width: auto !important;
     gap: 0.5rem !important;
+    flex-shrink: 0 !important;
   }
 
   .slim-history-container {
@@ -2133,16 +2137,45 @@ body {
 
   .editor-drawer-content {
     width: 100% !important;
-    height: calc(100% - 68px) !important;
+    height: auto !important;
+    flex: 1 !important;
   }
 
   .slim-tab-btn {
     width: 54px !important;
     height: 48px !important;
+    flex-shrink: 0 !important;
   }
   
   .slim-tab-btn-label {
     font-size: 0.5rem !important;
+  }
+
+  /* Prevent mobile input auto-zoom on focus by enforcing >= 16px font-size */
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px !important;
+  }
+
+  /* Prevent squished side-by-side fields in forms on mobile view */
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Give the scaled preview more horizontal space to grow on mobile */
+  .preview-panel {
+    padding: 1rem 0.5rem !important;
+  }
+
+  /* Fix for greeting name and logout text wrapping in header */
+  .no-mobile-name {
+    display: none !important;
+  }
+
+  /* Make list items truncate dynamically without pushing buttons off screen */
+  .list-item-title {
+    max-width: none !important;
   }
 }
 
