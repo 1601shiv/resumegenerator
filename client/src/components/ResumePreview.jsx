@@ -606,7 +606,7 @@ export default function ResumePreview({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={isDownloading ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -10, scale: 0.995 }}
             transition={isDownloading ? { duration: 0 } : { type: 'spring', stiffness: 220, damping: 22 }}
-            style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}
+            style={{ width: '100%', minHeight: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}
           >
             {/* Header layouts */}
         {activeTemplate.headerStyle === 'centered' && (
