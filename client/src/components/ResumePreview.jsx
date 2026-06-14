@@ -581,8 +581,8 @@ export default function ResumePreview({
           width: '100%', 
           display: 'flex', 
           justifyContent: 'center', 
-          height: isDownloading ? 'auto' : scaledHeight,
-          overflow: 'hidden',
+          height: (isDownloading || scale === 1) ? 'auto' : scaledHeight,
+          overflow: (isDownloading || scale === 1) ? 'visible' : 'hidden',
           marginBottom: '2rem'
         }}
         className="a4-container-wrapper"
@@ -594,7 +594,7 @@ export default function ResumePreview({
             color: resume?.settings?.fontColor || '#111111', 
             '--font-color': resume?.settings?.fontColor || '#111111', 
             overflow: 'hidden',
-            transform: isDownloading ? 'none' : `scale(${scale})`,
+            transform: (isDownloading || scale === 1) ? 'none' : `scale(${scale})`,
             transformOrigin: 'top center',
             margin: '0'
           }}
