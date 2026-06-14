@@ -1034,7 +1034,7 @@ export default function ResumePreview({
                 </div>
                 <div className="resume-main-col">
                   {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
-                    .filter(id => ['summary', 'experience', 'projects'].includes(id))
+                    .filter(id => !['skills', 'education', 'certifications'].includes(id))
                     .map(secId => renderSection(secId, 'single'))}
                 </div>
               </div>
@@ -1063,10 +1063,10 @@ export default function ResumePreview({
                   </section>
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5cm' }}>
-                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications']).filter(id => ['experience'].includes(id)).map(secId => renderSection(secId, 'single'))}
+                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications']).filter(id => id === 'experience').map(secId => renderSection(secId, 'single'))}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5cm' }}>
-                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications']).filter(id => ['skills', 'projects', 'education', 'certifications'].includes(id)).map(secId => renderSection(secId, 'single'))}
+                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications']).filter(id => id !== 'experience' && id !== 'summary').map(secId => renderSection(secId, 'single'))}
                 </div>
               </div>
             )}

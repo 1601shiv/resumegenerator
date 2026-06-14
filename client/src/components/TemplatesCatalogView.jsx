@@ -74,7 +74,7 @@ export default function TemplatesCatalogView({
               }}
             >
               <div>
-                <span className="hero-badge" style={{ backgroundColor: tpl.defaultColor + '20', color: tpl.defaultColor, marginBottom: '0.5rem' }}>
+                <span className="hero-badge" style={{ backgroundColor: `hsla(${tpl.defaultColor}, 0.12)`, color: `hsl(${tpl.defaultColor})`, marginBottom: '0.5rem' }}>
                   {tpl.layoutType.toUpperCase()}
                 </span>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0.5rem 0 0.25rem 0' }}>{tpl.name}</h3>
@@ -82,7 +82,7 @@ export default function TemplatesCatalogView({
               </div>
               <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>Font: {tpl.fontPairing}</span>
-                <span className="resume-accent-text" style={{ fontSize: '0.8rem', fontWeight: 800, color: tpl.defaultColor }}>Use Style →</span>
+                <span className="resume-accent-text" style={{ fontSize: '0.8rem', fontWeight: 800, color: `hsl(${tpl.defaultColor})` }}>Use Style →</span>
               </div>
             </div>
           ))}

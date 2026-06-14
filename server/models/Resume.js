@@ -1,23 +1,23 @@
 import mongoose from 'mongoose';
 
 const ExperienceSchema = new mongoose.Schema({
-  company: { type: String, required: true },
-  role: { type: String, required: true },
-  date: { type: String, required: true },
+  company: { type: String, default: '' },
+  role: { type: String, default: '' },
+  date: { type: String, default: '' },
   bullets: [{ type: String }]
 });
 
 const ProjectSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, default: '' },
   link: { type: String, default: '' },
   bullets: [{ type: String }]
 });
 
 const EducationSchema = new mongoose.Schema({
-  institution: { type: String, required: true },
-  degree: { type: String, required: true },
-  score: { type: String, required: true },
-  date: { type: String, required: true }
+  institution: { type: String, default: '' },
+  degree: { type: String, default: '' },
+  score: { type: String, default: '' },
+  date: { type: String, default: '' }
 });
 
 const ResumeSchema = new mongoose.Schema({

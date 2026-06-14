@@ -1003,7 +1003,8 @@ export default function EditorSidebar({
                     experience: 'Experience',
                     projects: 'Projects',
                     education: 'Education',
-                    certifications: 'Certifications'
+                    certifications: 'Certifications',
+                    keyAchievements: 'Key Achievements'
                   };
                   const label = labelMap[secId] || secId;
                   return (
