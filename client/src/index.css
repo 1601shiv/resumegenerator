@@ -614,7 +614,13 @@ body {
     height: auto !important;
     width: 100% !important;
   }
+  .a4-container-wrapper {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
   .a4-sheet {
+    transform: none !important;
     box-shadow: none !important;
     margin: 0 !important;
     padding: 1.2cm !important;
@@ -1485,7 +1491,7 @@ body {
   animation: canvasGlideDown 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .hero-grid-responsive {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
@@ -1934,7 +1940,7 @@ body {
    ========================================== */
 
 /* Responsive Navbar Drawer */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .global-nav {
     padding: 0 1rem !important;
     height: 60px !important;
@@ -1990,7 +1996,7 @@ body {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .mobile-editor-floating-toggle {
     display: flex;
     position: fixed;
@@ -2042,7 +2048,7 @@ body {
 }
 
 /* Editor Sidebar and Drawer Responsiveness */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .editor-workspace-container {
     flex-direction: column !important;
     position: relative !important;
@@ -2122,7 +2128,7 @@ body {
 }
 
 /* Dashboard & Views Layout adjustments */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .dashboard-view {
     padding: 1.5rem !important;
   }
@@ -2147,7 +2153,7 @@ body {
   align-items: start;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .ats-grid-layout {
     grid-template-columns: 1fr !important;
     gap: 1.5rem !important;
@@ -2168,7 +2174,7 @@ body {
   align-items: start;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .admin-stats-grid {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
@@ -2181,7 +2187,7 @@ body {
 }
 
 /* Biography / About view responsiveness */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .about-header {
     flex-direction: column !important;
     text-align: center !important;
@@ -2195,7 +2201,7 @@ body {
 }
 
 /* Landing Page adjustments */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .features-section {
     padding: 2rem 1.5rem !important;
   }
