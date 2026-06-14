@@ -1,6 +1,6 @@
 import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Printer, RefreshCw } from 'lucide-react';
+import { Printer, RefreshCw, Save } from 'lucide-react';
 import { AnimatedText } from './UIComponents';
 import { renderSkillItems } from './InteractiveSkillsManager';
 
@@ -22,7 +22,8 @@ export default function ResumePreview({
   saving,
   setResume,
   isPro,
-  setActiveTab
+  setActiveTab,
+  saveResume
 }) {
 
   // Intercept Enter key, sanitize DOM text, and safely blur to commit changes
@@ -535,7 +536,7 @@ export default function ResumePreview({
                 style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)' }}
               >
                 <span className="status-dot saving" />
-                <span>Auto-saving updates...</span>
+                <span>Saving updates...</span>
               </motion.div>
             ) : (
               <motion.div
@@ -546,16 +547,35 @@ export default function ResumePreview({
                 transition={{ duration: 0.15 }}
                 style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#10b981', fontWeight: 600 }}
               >
-                <span className="status-dot animate-pulse" style={{ backgroundColor: '#10b981' }} />
-                <span>Saved to database</span>
+                <span className="status-dot" style={{ backgroundColor: '#10b981' }} />
+                <span>Saved</span>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
         
-        <div className="toolbar-actions">
+        <div className="toolbar-actions" style={{ display: 'flex', gap: '0.5rem' }}>
           <button 
-            className={`btn btn-primary ${isDownloading ? 'btn-downloading' : ''}`} 
+            className="btn btn-primary" 
+            onClick={saveResume}
+            disabled={saving}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minWidth: '100px', justifyContent: 'center' }}
+          >
+            {saving ? (
+              <>
+                <RefreshCw size={15} className="animate-spin" />
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <Save size={15} />
+                <span>Save CV</span>
+              </>
+            )}
+          </button>
+
+          <button 
+            className={`btn btn-secondary ${isDownloading ? 'btn-downloading' : ''}`} 
             onClick={handlePrint}
             disabled={isDownloading}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minWidth: '135px', justifyContent: 'center' }}

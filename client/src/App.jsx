@@ -702,33 +702,30 @@ export default function App() {
     loadInitialData();
   }, [user]);
 
-  // Debounced auto-save handler to MongoDB
-  useEffect(() => {
+  // Manual save handler to MongoDB
+  const handleSaveResume = async () => {
     if (!resume?._id) return;
     setSaving(true);
-    const delayDebounce = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/resumes/${resume._id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(resume)
-        });
-        if (!res.ok) throw new Error();
-        
-        // Refresh list if on dashboard/editor changes
-        if (user) {
-          const listRes = await fetch(`/api/resumes?userId=${user._id}`);
-          if (listRes.ok) setResumes(await listRes.json());
-        }
-      } catch (err) {
-        showToast('Auto-save failed');
-      } finally {
-        setSaving(false);
+    try {
+      const res = await fetch(`/api/resumes/${resume._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(resume)
+      });
+      if (!res.ok) throw new Error();
+      showToast('Resume saved successfully!');
+      
+      // Refresh list if on dashboard/editor changes
+      if (user) {
+        const listRes = await fetch(`/api/resumes?userId=${user._id}`);
+        if (listRes.ok) setResumes(await listRes.json());
       }
-    }, 1000);
-
-    return () => clearTimeout(delayDebounce);
-  }, [resume]);
+    } catch (err) {
+      showToast('Failed to save resume');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   useEffect(() => {
     if (view === 'editor' && !resume) {
@@ -1542,6 +1539,7 @@ export default function App() {
                 setResume={setResume}
                 isPro={isPro}
                 setActiveTab={setActiveTab}
+                saveResume={handleSaveResume}
               />
 
             </motion.div>
