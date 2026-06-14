@@ -109,14 +109,7 @@ export default function ResumePreview({
                 }}
                 style={{ fontSize: '9pt', lineHeight: 1.4, margin: 0, textAlign: 'justify', outline: 'none' }}
               >
-                {resume?.settings?.showSummarySuggestions !== false ? (
-                  <>
-                    <strong style={{ display: 'block', marginBottom: '2pt', color: 'var(--accent-color)' }}>AI Suggestion 1:</strong>
-                    {focusedField === 'summary' ? resume.summary : renderMarkdownLinks(resume.summary)}
-                  </>
-                ) : (
-                  focusedField === 'summary' ? resume.summary : renderMarkdownLinks(resume.summary)
-                )}
+                {focusedField === 'summary' ? resume.summary : renderMarkdownLinks(resume.summary)}
               </div>
             </section>
           )
@@ -481,7 +474,6 @@ export default function ResumePreview({
     }
   };
 
-  // Helper template logic to securely swap out animated segments on-focus
   const getHeaderField = (fieldName) => {
     return focusedField === fieldName ? resume?.personalInfo?.[fieldName] : <AnimatedText text={resume?.personalInfo?.[fieldName]} />;
   };
@@ -991,14 +983,10 @@ export default function ResumePreview({
                   </section>
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5cm' }}>
-                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
-                    .filter(id => ['experience'].includes(id))
-                    .map(secId => renderSection(secId, 'single'))}
+                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications']).filter(id => ['experience'].includes(id)).map(secId => renderSection(secId, 'single'))}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5cm' }}>
-                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications'])
-                    .filter(id => ['skills', 'projects', 'education', 'certifications'].includes(id))
-                    .map(secId => renderSection(secId, 'single'))}
+                  {(resume?.settings?.sectionOrder || ['summary', 'skills', 'experience', 'projects', 'education', 'certifications']).filter(id => ['skills', 'projects', 'education', 'certifications'].includes(id)).map(secId => renderSection(secId, 'single'))}
                 </div>
               </div>
             )}
