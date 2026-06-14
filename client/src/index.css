@@ -381,6 +381,11 @@ body {
   position: relative;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  /* GPU acceleration for crisp subpixel text rendering on scale transforms */
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
 }
 
 /* Custom design rules for A4 sheet based on layout settings */

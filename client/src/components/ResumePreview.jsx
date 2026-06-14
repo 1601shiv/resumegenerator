@@ -594,7 +594,7 @@ export default function ResumePreview({
             color: resume?.settings?.fontColor || '#111111', 
             '--font-color': resume?.settings?.fontColor || '#111111', 
             overflow: 'hidden',
-            transform: (isDownloading || scale === 1) ? 'none' : `scale(${scale})`,
+            transform: (isDownloading || scale === 1) ? 'none' : `scale(${scale}) translateZ(0)`,
             transformOrigin: 'top center',
             margin: '0'
           }}
