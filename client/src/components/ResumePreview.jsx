@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Printer, RefreshCw } from 'lucide-react';
 import { AnimatedText } from './UIComponents';
@@ -25,11 +25,13 @@ export default function ResumePreview({
   setActiveTab
 }) {
 
-  // Helper to submit changes on Enter key press
+  // Intercept Enter key, sanitize DOM text, and safely blur to commit changes
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent adding a new line
-      e.target.blur();    // Triggers the onBlur handler automatically
+      e.preventDefault(); // Stop browser from creating unhandled <br> or <div> tags
+      const sanitizedText = e.target.innerText.replace(/\n/g, '').trim();
+      e.target.innerText = sanitizedText; // Normalize the DOM node immediately
+      e.target.blur(); // Triggers the corresponding onBlur handler cleanly
     }
   };
 
@@ -479,7 +481,7 @@ export default function ResumePreview({
     }
   };
 
-  // Helper template config map to determine field naming/focus overrides
+  // Helper template logic to securely swap out animated segments on-focus
   const getHeaderField = (fieldName) => {
     return focusedField === fieldName ? resume?.personalInfo?.[fieldName] : <AnimatedText text={resume?.personalInfo?.[fieldName]} />;
   };
