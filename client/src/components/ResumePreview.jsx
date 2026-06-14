@@ -479,37 +479,45 @@ export default function ResumePreview({
   };
 
   const previewRef = useRef(null);
+  const articleRef = useRef(null);
   const [scale, setScale] = useState(1);
+  const [scaledHeight, setScaledHeight] = useState('auto');
 
   useEffect(() => {
     if (isDownloading) {
       setScale(1);
+      setScaledHeight('auto');
       return;
     }
     const handleResize = () => {
-      if (!previewRef.current) return;
+      if (!previewRef.current || !articleRef.current) return;
       const containerWidth = previewRef.current.clientWidth;
       const targetWidth = 21 * 37.7952755906;
       const padding = 32;
+      
+      let currentScale = 1;
       if (containerWidth > 100 && containerWidth < targetWidth + padding) {
-        const newScale = (containerWidth - padding) / targetWidth;
-        setScale(Math.max(0.2, newScale));
-      } else {
-        setScale(1);
+        currentScale = (containerWidth - padding) / targetWidth;
+        currentScale = Math.max(0.2, currentScale);
       }
+      setScale(currentScale);
+      
+      const actualHeight = articleRef.current.scrollHeight;
+      setScaledHeight(`${actualHeight * currentScale}px`);
     };
 
     handleResize();
 
     const observer = new ResizeObserver(handleResize);
     if (previewRef.current) observer.observe(previewRef.current);
+    if (articleRef.current) observer.observe(articleRef.current);
 
     window.addEventListener('resize', handleResize);
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
     };
-  }, [isDownloading]);
+  }, [isDownloading, resume]);
 
   return (
     <main className="preview-panel" ref={previewRef}>
@@ -573,13 +581,14 @@ export default function ResumePreview({
           width: '100%', 
           display: 'flex', 
           justifyContent: 'center', 
-          height: isDownloading ? 'auto' : `calc(29.7cm * ${scale})`,
+          height: isDownloading ? 'auto' : scaledHeight,
           overflow: 'hidden',
           marginBottom: '2rem'
         }}
         className="a4-container-wrapper"
       >
         <article 
+          ref={articleRef}
           className={`a4-sheet print-area resume-font-${resume?.settings?.fontFamily || 'sans'} margin-${resume?.settings?.margins || 'standard'} ${isDownloading ? 'canvas-glide-down' : ''}`}
           style={{ 
             color: resume?.settings?.fontColor || '#111111', 
