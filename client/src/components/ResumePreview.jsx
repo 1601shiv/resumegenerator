@@ -491,9 +491,9 @@ export default function ResumePreview({
       const containerWidth = previewRef.current.clientWidth;
       const targetWidth = 21 * 37.7952755906;
       const padding = 32;
-      if (containerWidth < targetWidth + padding) {
+      if (containerWidth > 100 && containerWidth < targetWidth + padding) {
         const newScale = (containerWidth - padding) / targetWidth;
-        setScale(newScale);
+        setScale(Math.max(0.2, newScale));
       } else {
         setScale(1);
       }

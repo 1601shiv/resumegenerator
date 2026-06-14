@@ -1922,6 +1922,13 @@ body {
   100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
+.editor-workspace-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* ==========================================
    Mobile Compatibility Custom Queries
    ========================================== */
