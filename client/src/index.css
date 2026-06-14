@@ -1946,6 +1946,18 @@ body {
 
 /* Responsive Navbar Drawer */
 @media screen and (max-width: 768px) {
+  .mobile-menu-toggle-btn {
+    display: block !important;
+  }
+
+  .preview-toolbar {
+    width: 100% !important;
+    max-width: 95% !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    justify-content: center !important;
+  }
+
   .global-nav {
     padding: 0 1rem !important;
     height: 60px !important;
