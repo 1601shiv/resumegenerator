@@ -187,6 +187,8 @@ export default function EditorSidebar({
             className="slim-tab-btn"
             onClick={handleRestoreInitial}
             title="Version History"
+            disabled={!canUndo}
+            style={{ opacity: canUndo ? 1 : 0.4, cursor: canUndo ? 'pointer' : 'not-allowed' }}
           >
             <History size={18} />
             <span className="slim-tab-btn-label">History</span>
