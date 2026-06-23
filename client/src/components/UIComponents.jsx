@@ -173,7 +173,7 @@ export const CountUp = ({ value }) => {
 // 5. Confetti Overlay
 export const ConfettiOverlay = () => {
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 1200, pointerEvents: 'none', overflow: 'hidden' }}>
+    <div className="no-print" style={{ position: 'fixed', inset: 0, zIndex: 1200, pointerEvents: 'none', overflow: 'hidden' }}>
       {Array.from({ length: 35 }).map((_, i) => {
         const delay = Math.random() * 1.5;
         const left = Math.random() * 100;
