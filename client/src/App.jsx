@@ -213,6 +213,15 @@ export default function App() {
   const [saving, setSaving] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
 
+  useEffect(() => {
+    localStorage.setItem('dashboard-theme', theme);
+    if (theme === 'light') {
+      document.body.classList.add('theme-light');
+    } else {
+      document.body.classList.remove('theme-light');
+    }
+  }, [theme]);
+
   const renderMarkdownLinks = (text) => {
     if (!text) return '';
     const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
