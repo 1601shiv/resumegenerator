@@ -781,7 +781,7 @@ export default function App() {
             name: 'MotoGear E-Commerce Platform',
             link: 'https://moto-three-delta.vercel.app',
             bullets: [
-              'Designed, developed, tested, and maintained a robust backend architecture for a full-stack motorcycle showroom application, managing a database schema of 500+ inventory items.',
+              'Designed, developed, tested, and maintained a robust backend architecture for a full-stack motorcycle showroom application.',
               'Built and integrated 10+ RESTful APIs, utilizing SQL/NoSQL databases to efficiently handle product queries and simulate secure payment gateways.',
               'Collaborated with frontend teams to ensure seamless UI integration, debugging 20+ issues across the stack to improve overall application load times by 15%.'
             ]
