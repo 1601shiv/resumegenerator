@@ -151,13 +151,13 @@ export const SEED_RESUME = {
     linkedin: 'linkedin.com/in/shiv-pratap-singh-2b4735271',
     github: 'github.com/1601shiv'
   },
-  summary: 'MCA student with a strong foundation in Software Engineering, Data Structures, Algorithms, and DBMS. Experienced in Python backend development, designing RESTful APIs, and managing SQL/NoSQL databases to create scalable applications. Proven ability to debug complex issues, write unit tests, and collaborate seamlessly with frontend teams. Feel free to search and try [My Portfolio](https://github.com/1601shiv) links.',
+  summary: 'Recent MCA graduate from Haldia Institute of Technology with a strong foundation in Data Structures, Algorithms, and Software Engineering. Proficient in JavaScript (ES6+), the MERN stack (MongoDB, Express, React, Node.js), and JWT for secure stateless authentication. Holds a beginner-level proficiency in Java and DSA, with experience building full-stack applications and integrating Google Gemini AI features. Passionate about backend systems, clean API design, and e-commerce engineering, currently seeking a career as a Software Engineer or Full-Stack Developer to build modern, high-impact web products.',
   skills: {
-    core: ['Software Engineering', 'Backend Development', 'RESTful APIs', 'Debugging', 'Unit Testing'],
-    languages: ['Python', 'Java', 'JavaScript (ES6+)'],
-    backend: ['SQL', 'PostgreSQL', 'MongoDB', 'Node.js', 'Express.js'],
-    frontend: ['HTML5', 'CSS3', 'React.js', 'Responsive Design'],
-    tools: ['Git', 'GitHub', 'VS Code', 'Data Structures', 'Algorithms', 'Operating Systems']
+    core: ['Software Engineering', 'Backend Development', 'RESTful APIs', 'JWT Authentication', 'Debugging', 'Unit Testing'],
+    languages: ['JavaScript (ES6+)', 'Python', 'Java (Beginner)'],
+    backend: ['MongoDB', 'Express.js', 'Node.js', 'SQL', 'PostgreSQL'],
+    frontend: ['HTML5', 'CSS3', 'React.js', 'Tailwind CSS', 'Responsive Design'],
+    tools: ['Git', 'GitHub', 'VS Code', 'Data Structures & Algorithms (Beginner)', 'Operating Systems']
   },
   experience: [
     {
@@ -182,16 +182,28 @@ export const SEED_RESUME = {
   projects: [
     {
       name: 'MotoGear E-Commerce Platform',
+      link: 'https://moto-three-delta.vercel.app',
       bullets: [
-        'Designed, developed, tested, and maintained a robust backend architecture for a full-stack showroom application, managing a database schema of 500+ inventory items.',
-        'Built and integrated 10+ RESTful APIs, utilizing SQL/NoSQL databases to efficiently handle product queries and simulate secure payment gateways.'
+        'Designed, developed, tested, and maintained a robust backend architecture for a full-stack motorcycle showroom application, managing a database schema of 500+ inventory items.',
+        'Built and integrated 10+ RESTful APIs, utilizing SQL/NoSQL databases to efficiently handle product queries and simulate secure payment gateways.',
+        'Collaborated with frontend teams to ensure seamless UI integration, debugging 20+ issues across the stack to improve overall application load times by 15%.'
       ]
     },
     {
       name: 'Resume & Portfolio Generator',
+      link: 'https://resumegenerator-eosin.vercel.app',
       bullets: [
         'Developed a dynamic resume builder utilizing React.js, component-based architecture, and responsive design principles to serve 120+ customizable layout templates.',
+        'Engineered a RESTful API for template storage and shareable portfolio links, integrating LocalStorage to reduce unnecessary server requests by 30%.',
         'Wrote unit tests and debugged core application features, achieving 90% reliable functionality across drag-and-drop modules, live previews, and theme switching.'
+      ]
+    },
+    {
+      name: 'Travel Booking UI',
+      link: 'https://travel-booking-ui-olive.vercel.app',
+      bullets: [
+        'Built a responsive web application using React.js, HTML5, and CSS3, implementing search, filtering, and pagination functionalities for over 1,000+ mock JSON data records.',
+        'Processed structured data to ensure smooth rendering and user interaction, decreasing UI rendering lag by 25% utilizing efficient state management.'
       ]
     }
   ],

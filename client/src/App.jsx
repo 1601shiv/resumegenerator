@@ -745,67 +745,106 @@ export default function App() {
   useEffect(() => {
     if (view === 'editor' && !resume) {
       setResume({
-        title: 'Sara Booth - Resume',
-        targetJobTitle: 'Content Manager',
+        title: 'Shiv Pratap Singh - Resume',
+        targetJobTitle: 'Software Engineer / Full-Stack Developer',
         personalInfo: {
-          name: 'SARA BOOTH',
-          email: 'sarabooth@mail.com',
-          phone: '0876579976',
-          linkedin: 'sara_booth',
-          github: '',
-          location: 'United Kingdom'
+          name: 'SHIV PRATAP SINGH',
+          email: '1601shiv@gmail.com',
+          phone: '7667590158',
+          linkedin: 'linkedin.com/in/shiv-pratap-singh-2b4735271',
+          github: 'github.com/1601shiv',
+          location: 'India'
         },
-        summary: 'Passionate content manager with a knack for creating compelling narratives and a strong commitment to enhancing brand stories. With extensive experience in content creation and management, eager to contribute to a mission-driven organization dedicated to impactful communication. Proven ability to engage diverse audiences and foster community through cutting-edge content strategies, aligning closely with the company\'s goals for authentic and effective storytelling.',
+        summary: 'Recent MCA graduate from Haldia Institute of Technology with a strong foundation in Data Structures, Algorithms, and Software Engineering. Proficient in JavaScript (ES6+), the MERN stack (MongoDB, Express, React, Node.js), and JWT for secure stateless authentication. Holds a beginner-level proficiency in Java and DSA, with experience building full-stack applications and integrating Google Gemini AI features. Passionate about backend systems, clean API design, and e-commerce engineering, currently seeking a career as a Software Engineer or Full-Stack Developer to build modern, high-impact web products.',
         experience: [
           {
-            company: 'EnhanceCV',
-            role: 'Content manager and writer',
-            date: 'Date period',
+            company: 'Skyscanner Virtual Experience',
+            role: 'React UI Developer',
+            date: 'Nov 2025',
             bullets: [
-              'Produced a biweekly newsletter sent to 1.5 million people',
-              'Streamlined content workflow, resulting in a 25% reduction in production costs.',
-              'Managed a team of 10 content creators producing over 500 articles annually.',
-              'Increased subscriber base by 30% by launching a targeted email campaign.',
-              'Increased monthly website traffic by 30% through targeted content strategies and SEO optimization.'
+              'Built a travel date picker component using React and Backpack UI to streamline user booking flows.',
+              'Customized 15+ reusable UI components and implemented automated rendering tests to ensure visual consistency.'
+            ]
+          },
+          {
+            company: 'Deloitte Cyber Security Simulation',
+            role: 'Security Analyst',
+            date: 'Nov 2025',
+            bullets: [
+              'Analyzed 500+ lines of system logs to detect anomalous behavior and identify potential security vulnerabilities.',
+              'Assisted in preparing 3 incident response summaries and mitigation steps.'
             ]
           }
         ],
-        projects: [],
-        education: [
+        projects: [
           {
-            institution: 'University of Aden',
-            degree: 'Geography',
-            score: '',
-            date: '2019 - 2025'
+            name: 'MotoGear E-Commerce Platform',
+            link: 'https://moto-three-delta.vercel.app',
+            bullets: [
+              'Designed, developed, tested, and maintained a robust backend architecture for a full-stack motorcycle showroom application, managing a database schema of 500+ inventory items.',
+              'Built and integrated 10+ RESTful APIs, utilizing SQL/NoSQL databases to efficiently handle product queries and simulate secure payment gateways.',
+              'Collaborated with frontend teams to ensure seamless UI integration, debugging 20+ issues across the stack to improve overall application load times by 15%.'
+            ]
+          },
+          {
+            name: 'Resume & Portfolio Generator',
+            link: 'https://resumegenerator-eosin.vercel.app',
+            bullets: [
+              'Developed a dynamic resume builder utilizing React.js, component-based architecture, and responsive design principles to serve 120+ customizable layout templates.',
+              'Engineered a RESTful API for template storage and shareable portfolio links, integrating LocalStorage to reduce unnecessary server requests by 30%.',
+              'Wrote unit tests and debugged core application features, achieving 90% reliable functionality across drag-and-drop modules, live previews, and theme switching.'
+            ]
+          },
+          {
+            name: 'Travel Booking UI',
+            link: 'https://travel-booking-ui-olive.vercel.app',
+            bullets: [
+              'Built a responsive web application using React.js, HTML5, and CSS3, implementing search, filtering, and pagination functionalities for over 1,000+ mock JSON data records.',
+              'Processed structured data to ensure smooth rendering and user interaction, decreasing UI rendering lag by 25% utilizing efficient state management.'
+            ]
           }
         ],
-        certifications: [],
+        education: [
+          {
+            institution: 'Haldia Institute of Technology',
+            degree: 'MCA',
+            score: 'CGPA: 8.19',
+            date: '2024--2026'
+          },
+          {
+            institution: 'Guru Nanak College, Dhanbad',
+            degree: 'BCA',
+            score: 'CGPA: 7.31',
+            date: '2021--2024'
+          }
+        ],
+        certifications: [
+          'Introduction to Generative AI, Google Cloud (2025)'
+        ],
         skills: {
-          core: ['Content Strategy', 'Team Management', 'Copywriting', 'SEO Optimization', 'Newsletter Campaigning'],
-          languages: ['English (Native)', 'French (Conversational)'],
-          backend: [],
-          frontend: [],
-          tools: ['Wordpress', 'Mailchimp', 'Google Analytics', 'Ahrefs', 'Canva']
+          core: ['Software Engineering', 'Backend Development', 'RESTful APIs', 'JWT Authentication', 'Debugging', 'Unit Testing'],
+          languages: ['JavaScript (ES6+)', 'Python', 'Java (Beginner)'],
+          backend: ['MongoDB', 'Express.js', 'Node.js', 'SQL', 'PostgreSQL'],
+          frontend: ['HTML5', 'CSS3', 'React.js', 'Tailwind CSS', 'Responsive Design'],
+          tools: ['Git', 'GitHub', 'VS Code', 'Data Structures & Algorithms (Beginner)', 'Operating Systems']
         },
         keyAchievements: [
-          { title: 'Subscriber Increase', description: 'Launched targeted campaign boosting subscribers by 30%.' },
-          { title: 'Cost Efficiency', description: 'Reduced production costs by 25% through workflow optimization.' },
-          { title: 'Team Management', description: 'Led team producing 500+ articles annually.' },
-          { title: 'Newsletter Distribution', description: 'Produced newsletter sent biweekly to 1.5 million people.' },
-          { title: 'Your Achievement', description: 'Describe what you did and the impact it had.' }
+          { title: 'Project Delivery', description: 'Designed and deployed MotoGear showroom application with Gemini AI integration.' },
+          { title: 'Resume Builder UI', description: 'Developed React SPA serving 120+ customizable templates.' },
+          { title: 'Academic Record', description: 'Maintained CGPA of 8.19 in MCA program.' }
         ],
         settings: {
           templateId: 'tpl-modern-minimalist',
-          accentColor: '142 70% 35%', // Green/Teal accent matching Enhancv look!
+          accentColor: '215 80% 30%', // Navy accent matching default template
           fontFamily: 'sans',
           margins: 'standard',
           showSummary: true,
           showExperience: true,
-          showProjects: false,
+          showProjects: true,
           showEducation: true,
-          showCertifications: false,
+          showCertifications: true,
           showBranding: true,
-          sectionOrder: ['summary', 'skills', 'experience', 'education', 'keyAchievements']
+          sectionOrder: ['summary', 'skills', 'experience', 'projects', 'education', 'certifications', 'keyAchievements']
         }
       });
     }
